@@ -5,73 +5,94 @@
     <title>WAR!!!!</title>
 </head>
 <body>
+    <pre>
    <?php
     class Unit {
-        public $health;
+        protected $health;
         protected $armor;
-        protected $damage;
+        public $damage;
+
+        static function getHealth() {
+            return self::health;
+        }
+        static function getArmor() {
+            return self::armor;
+        }
+        static function getDamage() {
+            return self::damage;           
+        }
+
         
     }
     class Infantry extends Unit {
-        public $health = 100;
+        protected $health = 100;
         protected $armor = 10;
-        protected $damage =10; 
+        public $damage =10; 
     }
     class Knight extends Unit {
-        public $health = 300;
+        protected $health = 300;
         protected $armor = 30;
-        protected $damage =30; 
+        public $damage =30; 
     }
     class Archer extends Unit {
-        public $health = 300;
+        protected $health = 100;
         protected $armor = 5;
-        protected $damage =20; 
+        public $damage =20; 
     }
-
-
+echo Archer::getHealth();
     class Army {
-        public $warlord = '';
-        public $warriors=[];
+        private $warlord;
+        private $warriors=[];
         // поля класса Армия -> командующий и массив войнов
         public function __construct($warlord, $infantry, $knight, $archer) {
             $this->warlord = $warlord;
-            $this->warriors['infantry'] = [];
+            $this->warriors['Infantry'] = [];
             for ($i=0; $i<$infantry; $i++) {
-                $warriors['infantry'][$i] = new Unit();
+                $this->warriors['Infantry'][$i] = new Infantry();
             }
-            $this->warriors['knight'] = [];
+            $this->warriors['Knight'] = [];
             for ($i=0; $i<$knight; $i++) {
-                $warriors['knight'][$i] = new Knight();
+                $this->warriors['Knight'][$i] = new Knight();
             }
-            $this->warriors['archer'] = [];
+            $this->warriors['Archer'] = [];
             for ($i=0; $i<$archer; $i++) {
-                $warriors['archer'][$i] = new Archer();
+                $this->warriors['Archer'][$i] = new Archer();
             }
-            var_dump($this->warriors);
-            echo '<br>';
+            
         }
 
         public function getWarlord() {
             return $this->warlord;
         }
-        public function attack($warrior) {
-            var_dump($this->warriors[$warrior]);
+        public function getWariors() {
+                $units ='пехота-'.count($this->warriors['Infantry']).", конница-".count($this->warriors['Knight']).", лучники-".count($this->warriors['Archer']);
+                return $units;
+        }
+        public function getAttackWariors($solders) {
+            $units = count($this->warriors[$solders]);
+            echo $units;
+            echo '<br>';
+            echo $solders::getDamage();
+            $res = $units * $solders::getDamage();
+            return $res;
         }
     }
     $nevsk = new Army ('Nevskiy', 200, 15, 30);
     $tevtons = new Army('Ульф Фасе', 90, 25, 65);
-    //$nevskiy->attack('knight');
+    $nevsk->getWarlord();
+    echo '<br>';
+    print_r ($nevsk->getAttackWariors('Knight'));
     ?>   
 <table border="1">
     <tr>
         <th></th>
-        <th><?=$nevskiy->getWarlord()?></th>
+        <th><?=$nevsk->getWarlord()?></th>
         <th><?=$tevtons->getWarlord()?></th>
     </tr>
     <tr>
         <th>Army units:</th>
-        <td>unit1 (count), unit2(count), ...</td>
-        <td>unit1 (count), unit2(count), ...</td>
+        <td><?=$nevsk->getWariors()?></td>
+        <td><?=$tevtons->getWariors()?></td>
     </tr>
 <?php
 $duration = 0;
