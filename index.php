@@ -12,14 +12,14 @@
         protected $armor;
         public $damage;
 
-        static function getHealth() {
-            return self::health;
+        public function getHealth() {
+            return $this->health;
         }
-        static function getArmor() {
-            return self::armor;
+        public function getArmor() {
+            return $this->armor;
         }
-        static function getDamage() {
-            return self::damage;           
+        public function getDamage() {
+            return $this->damage;           
         }
 
         
@@ -39,7 +39,7 @@
         protected $armor = 5;
         public $damage =20; 
     }
-echo Archer::getHealth();
+
     class Army {
         private $warlord;
         private $warriors=[];
@@ -70,14 +70,17 @@ echo Archer::getHealth();
         }
         public function getAttackWariors($solders) {
             $units = count($this->warriors[$solders]);
-            echo $units;
-            echo '<br>';
-            echo $solders::getDamage();
-            $res = $units * $solders::getDamage();
+            $res = $units * ($this->warriors[$solders][0]->getDamage());
             return $res;
         }
+        public function getHealthWariors($solders) {
+            $units = count($this->warriors[$solders]);
+            $res = $units * ($this->warriors[$solders][0]->getHealth());
+            return $res;
+
+        }
     }
-    $nevsk = new Army ('Nevskiy', 200, 15, 30);
+    $nevsk = new Army('Nevskiy', 200, 15, 30);
     $tevtons = new Army('Ульф Фасе', 90, 25, 65);
     $nevsk->getWarlord();
     echo '<br>';
