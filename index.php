@@ -97,6 +97,7 @@
         }
         public function killSolders($solders) {
             // удаляет одного юнита по типу
+            // функцию необходимо доработать для вызова из функции randWAR
             if (count($this->warriors[$solders]) > 0) {
             unset($this->warriors[$solders][count($this->warriors[$solders]) - 1]);
             return true;
