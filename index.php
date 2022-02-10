@@ -8,17 +8,21 @@
     <pre>
    <?php
     class Unit {
+        //базовый класс война
         protected $health;
         protected $armor;
         public $damage;
 
         public function getHealth() {
+            // функция возвращает показатель здоровья юнита
             return $this->health;
         }
         public function getArmor() {
+            // функция возвращает показатель брони юнита
             return $this->armor;
         }
         public function getDamage() {
+            // функция возвращает показатель атаки юнита
             return $this->damage;           
         }
 
@@ -45,6 +49,7 @@
         private $warriors=[];
         // поля класса Армия -> командующий и массив войнов
         public function __construct($warlord, $infantry, $knight, $archer) {
+            //прописывается командующий армией и заполняются рода войск
             $this->warlord = $warlord;
             $this->warriors['Infantry'] = [];
             for ($i=0; $i<$infantry; $i++) {
@@ -62,23 +67,28 @@
         }
 
         public function getWarlord() {
+            // возвращает строку с командующим
             return $this->warlord;
         }
         public function getWariors() {
+                // возвращает строку с составом юнитов по армии
                 $units ='пехота-'.count($this->warriors['Infantry']).", конница-".count($this->warriors['Knight']).", лучники-".count($this->warriors['Archer']);
                 return $units;
         }
 
         public function getWarior ($solder) {
+            // возвращает количество войнов одного типа
             return count($this->warriors[$solder]);
         }
 
         public function getAttackWariors($solders) {
+            // возвращает общую атаку одного типа юнитов
             $units = count($this->warriors[$solders]);
             $res = $units * ($this->warriors[$solders][0]->getDamage());
             return $res;
         }
         public function getHealthWariors($solders) {
+            // возвращает общее здоровье + броня одного типа юнитов
             $units = count($this->warriors[$solders]);
             $res = $units * ($this->warriors[$solders][0]->getHealth());
             $res += $units * ($this->warriors[$solders][0]->getArmor());
@@ -86,6 +96,7 @@
 
         }
         public function killSolders($solders) {
+            // удаляет одного юнита по типу
             if (count($this->warriors[$solders]) > 0) {
             unset($this->warriors[$solders][count($this->warriors[$solders]) - 1]);
             return true;
@@ -95,6 +106,9 @@
         }
 
     // function randWAR($army1, $army2) {
+        // функция рандомно выбирает армию которая атакует (другая соответственно обороняется) 
+        //и рандомно выбирает типы юнитов которые атакуют и обороняются(по одному на армию), 
+        // после выводит результат боестолкновения отрядов
     //     $armiAttac = rand(1, 2);
     //     if ($armiAttac = 1) {
     //         $army1Warrior = array_rand('Infantry', 'Knight', 'Archer');
@@ -116,6 +130,7 @@
     // }
 
     function war($army1, $army2) {
+        // функция боя, принимает 2 армии и считает показатели здоровья и атаки на каждую армию
         global $damage1, $damage2, $health1, $health2;
         $damage1 = $army1->getAttackWariors('Infantry') + $army1->getAttackWariors('Knight') + $army1->getAttackWariors('Archer');
         $health1 = $army1->getHealthWariors('Infantry') + $army1->getHealthWariors('Knight') + $army1->getHealthWariors('Archer');
