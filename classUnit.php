@@ -1,8 +1,11 @@
 <?php
 interface Units {
-    public function getHealth() :int;
-    public function getArmor() :int;
-    public function getDamage() :int;
+    protected int $health;
+    protected int $armor;
+    protected int $damage;
+    public function getHealth();
+    public function getArmor();
+    public function getDamage();
 }
 abstract class Unit implements Units{
         //базовый класс война
