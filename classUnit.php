@@ -1,8 +1,5 @@
 <?php
 interface Units {
-    protected int $health;
-    protected int $armor;
-    protected int $damage;
     public function getHealth();
     public function getArmor();
     public function getDamage();
